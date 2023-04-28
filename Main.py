@@ -57,4 +57,5 @@ canvas.create_window(((50-500/3)/2 - 1.9, 737), anchor = 'nw', window = btnHome)
 
 
 root.mainloop()                         # start application
+print('Smoke, Sher, PHILIMON')
 
