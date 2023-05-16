@@ -1,0 +1,6 @@
+This is pet project created by @LubluWafli, @KashitynP, and @AlexandraPushkina.
+
+ABC-helper can improve your grammatical skill. 
+Just insert a text and application make your text in select-correct-word format. 
+You can also use random text, taken from a random page on the Internet. 
+All texts is contained in the database. 
