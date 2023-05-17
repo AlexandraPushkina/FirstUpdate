@@ -1,3 +1,4 @@
+import tkinter
 from tkinter import *
 from Main import *
 
@@ -22,10 +23,10 @@ def handle_click_btnInsert(event): # Create function to handle btnInsert
 
         text_label['text'] = text_update
 
-    text_label = Label() # Create window for text 
-    text_enter = Entry() # Create window to input text
-    text_label.pack(anchor=CENTER, padx=6, pady=6)
-    text_enter.pack(anchor=CENTER, padx=6, pady=6)
+    text_label = Label(height=20,width=100,anchor = 'e') # Create window for text
+    text_enter = Entry(justify= tkinter.CENTER,width=50) # Create window to input text
+    text_label.pack(anchor='e', padx=49, pady=6)
+    text_enter.place(anchor=CENTER, height=60,x = 580, y =400)
     
     # Set parameters for buttons
     display_click_btnInsert = Button(text='Display', command=display)
