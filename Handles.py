@@ -1,6 +1,11 @@
 from tkinter import *
+from Main import *
+
+
 
 def handle_click_btnInsert(event): # Create function to handle btnInsert
+
+
 
     def clear(): # function to remove a character in the entered text
         Entry.delete(text_enter, 0) 
@@ -30,9 +35,10 @@ def handle_click_btnInsert(event): # Create function to handle btnInsert
     clear_click_btnInsert.pack(side=LEFT, anchor=CENTER, padx=6, pady=6)
 
 def handle_click_btnHome(event): # Create function to handle btnHome
-    with open('idea/home.txt', 'r') as file:
+    canvas.delete                   # You must delete canvas
+    with open('home.txt', 'r') as file:
         home_text = file.read() # Open and read file home.txt
     home_label = Label(text=home_text)
-    home_label.grid(row=0, column=0)
+    home_label.grid(row=100, column=59)
     home_label.pack()
 
