@@ -1,7 +1,6 @@
 from tkinter import *
 # from PIL import ImageTk
-
-from Handles import *
+from Handles import handle_click_btnInsert, handle_click_btnRandom, handle_click_btnHome
 
 class Helper:
 
@@ -47,6 +46,7 @@ class Helper:
 
         self.btnRandom = Button(self.root, image = self.btn1, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39' )
         self.btnRandom.pack()
+        self.btnRandom.bind('<Button-1>', handle_click_btnRandom)
 
         self. btnHistory = Button(self.root,image = self.btn2, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39')
         self.btnHistory.pack()

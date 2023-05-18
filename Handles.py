@@ -1,12 +1,8 @@
 import tkinter
 from tkinter import *
-from Main import *
-
 
 
 def handle_click_btnInsert(event): # Create function to handle btnInsert
-
-
 
     def clear(): # function to remove a character in the entered text
         Entry.delete(text_enter, 0) 
@@ -35,8 +31,26 @@ def handle_click_btnInsert(event): # Create function to handle btnInsert
     clear_click_btnInsert = Button(text='Clear', command=clear)
     clear_click_btnInsert.pack(side=LEFT, anchor=CENTER, padx=6, pady=6)
 
+def handle_click_btnRandom(event):
+    label_theme = Label( background='#d7ebf4',width=20,height=200,text='Themes',font='Bold',anchor='n',pady = 10)
+    label_theme.pack()
+    label_theme.place(x=200)
+    create_buttons_themes()
+
+def create_buttons_themes():
+    btnNature = Button(text='Nature')
+    btnSocial =Button(text = 'Social')
+    btnTechnology = Button(text = 'Technology')
+    btnNature.pack()
+    btnSocial.pack()
+    btnTechnology.pack()
+    btnNature.place(x = 200,y =30)
+    btnSocial.place(x = 200,y =60)
+    btnTechnology.place(x = 200,y =90)
+
+
 def handle_click_btnHome(event): # Create function to handle btnHome
-    canvas.delete                   # You must delete canvas
+    # canvas.delete                   # You must delete canvas
     with open('home.txt', 'r') as file:
         home_text = file.read() # Open and read file home.txt
     home_label = Label(text=home_text)
