@@ -16,4 +16,15 @@ def get_text(theme):  #connection and query for database
     for row in cursor.fetchall():   #for check
         print(row)
 
-get_text('Nature')   #will work with button ('Themes')
+def save_in_history(text):
+    connection = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='Mshrmwllpsnu1',
+        database='words'
+    )
+    cursor = connection.cursor()
+    query = 'INSERT INTO words.history(history_text) VALUES (%s)'
+    cursor.execute(query,(text, ))
+    connection.commit()
+

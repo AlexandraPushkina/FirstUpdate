@@ -9,7 +9,19 @@ class Helper:
         self.root.geometry("1000x800")  #define the initial area of the window
         self.root.resizable(0,0)
 
-        #define background image
+        # #define background image
+        # self.initial_area = Label(bg='#8fbbea',width=1000,height=800)
+        # self.initial_area.place()
+        # self.user_name_entry = Entry()
+        # self.password_entry = Entry(show='*')
+        # self.btnConfirm = Button(self.initial_area, text = 'Confirm')
+        # self.btnClear = Button(self.initial_area, text = 'Clear')
+        # self.user_name_entry.pack()
+        # self.password_entry.pack()
+        # self.btnConfirm.pack()
+        # self.btnClear.pack()
+
+
         self.bg = PhotoImage(file="pictures/background.png")  #open picture
         self.leftside = PhotoImage(file = "pictures/leftside.png")
 
