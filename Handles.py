@@ -3,25 +3,15 @@ from tkinter import *
 import Application_main
 import SQL
 
-
-# def clear_main_label():
-
-    # my_label_next = Label(master=Application_main.root, image=Application_main.bg)
-    # my_label_next.place(x=0, y=0, relwidth=1, relheight=1)
-    # my_label = my_label_next
-    # my_label_next.destroy()
-    # my_label.destroy()
 def handle_click_btnInsert(event): # Create function to handle btnInsert
-
-    # clear_main_label()
 
     def clear(): # function to remove a character in the entered text
         Entry.delete(text_enter, 0)
 
     def display(): # Function to display changed text
+        text_update = ''
         text = text_enter.get()
         num_list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-        text_update = ''
         for i in range(len(text)):
             if text[i] in num_list:
                 text_update += '1,2,3'
@@ -29,25 +19,38 @@ def handle_click_btnInsert(event): # Create function to handle btnInsert
                 text_update += text[i]
 
         text_label['text'] = text_update
+        text_enter.delete(0, END)  # Deletes all entered text when click display
         SQL.save_in_history(text_label['text'])
 
-    def exitInsert():
-        pass
+    def exit_insert():  # Function to exit out of insert label
+        text_label.destroy()
+        text_enter.destroy()
+        display_click_btnInsert.destroy()
+        clear_click_btnInsert.destroy()
+        btn_insert_exit.destroy()
+        global click_btn_insert
+        click_btn_insert = False
 
+    global click_btn_insert
     # Set parameters for buttons
-    display_click_btnInsert = Button(text='Display', command=display)
-    display_click_btnInsert.pack(anchor=CENTER, padx=6, pady=6)
+    click_btn_insert = False
+    if not click_btn_insert:
+        text_label = Label(height=20,width=100,anchor = 'e') # Create window for text
+        text_enter = Entry(justify= tkinter.CENTER,width=50) # Create window to input text
+        text_enter.delete(0, END)
+        text_label.pack(anchor='e', padx=49, pady=6)
+        text_enter.place(anchor=CENTER, height=60,x = 580, y =400)
 
-    clear_click_btnInsert = Button(text='Clear', command=clear)
-    clear_click_btnInsert.pack(anchor=CENTER, padx=6, pady=6)
+        display_click_btnInsert = Button(text='Display', command=display)
+        display_click_btnInsert.place(x = 300,y = 500)
 
+        clear_click_btnInsert = Button(text='Clear', command=clear)
+        clear_click_btnInsert.place(x = 300,y = 450)
 
-    text_label = Label(height=20,width=100,anchor = 'e') # Create window for text
-    text_enter = Entry(justify= tkinter.CENTER,width=50) # Create window to input text
-    text_label.pack(anchor='e', padx=49, pady=6)
-    text_enter.place(anchor=CENTER, height=60,x = 580, y =400)
+        btn_insert_exit = Button(text='Закрыть', command=exit_insert)
+        btn_insert_exit.place(x = 300,y = 400)
 
-    
+        click_btn_insert = True
 
 
 
@@ -81,4 +84,6 @@ def handle_click_btnHome(event): # Create function to handle btnHome
 
     except Tk.report_callback_exception as ex:
         print('Error!', ex)
+
+
 
