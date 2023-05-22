@@ -53,7 +53,7 @@ class Helper:
 
         self.btnInsert = Button(self.root, image=self.btn0, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39')  #create button in object - button
         self.btnInsert.pack()             #show button
-        self.btnInsert.bind('<Button-1>', handler.handle_click_btnInsert) # Run handle on click
+        self.btnInsert.bind('<Button-1>', Handles.handle_click_btnInsert) # Run handle on click
 
         self.btnRandom = Button(self.root, image = self.btn1, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39' )
         self.btnRandom.pack()
@@ -64,17 +64,22 @@ class Helper:
 
         self.btnHome = Button(self.root, width = 500/3, height=200/3, image = self.btn3, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39' )
         self.btnHome.pack()
-        self.btnHome.bind('<Button-1>', home.handle_click_btnHome) # Run handle on click
+        self.btnHome.bind('<Button-1>', Handles.handle_click_btnHome) # Run handle on click
 
         self.canvas.create_window(((200-500/3)/2-1.9,100), anchor = 'nw', window = self.btnInsert)      #set buttons on canvas
         self.canvas.create_window(((200 - 500/3)/2-1.9, 200), anchor = 'nw', window = self.btnRandom)
         self.canvas.create_window(((200 - 500/3)/2-1.9, 300), anchor = 'nw', window = self.btnHistory)
         self.canvas.create_window(((50-500/3)/2 - 1.9, 737), anchor = 'nw', window = self.btnHome)
 
+    def clear_main_label(self):
+        self.my_label_next = Label(master=self.root, image = self.bg)
+        self.my_label_next.place(x=0, y=0, relwidth=1, relheight=1)
+        self.my_label.destroy()
+        if hasattr(application, "my_label_next"):
+            self.my_label_next.destroy()
+
 
 if __name__=='__main__':
     root_out = Tk()
     application = Helper(root_out)  #class object
-    handler = Handles.Function(application, False)
-    home = Handles.Home(application, False)
     root_out.mainloop()  # start application
