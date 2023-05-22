@@ -1,18 +1,19 @@
 import tkinter
 from tkinter import *
 import Application_main
+import SQL
 
 
-def clear_main_label():
+# def clear_main_label():
 
-    my_label_next = Label(master=Application_main.root, image=Application_main.bg)
-    my_label_next.place(x=0, y=0, relwidth=1, relheight=1)
-    my_label = my_label_next
-    my_label_next.destroy()
-    my_label.destroy()
+    # my_label_next = Label(master=Application_main.root, image=Application_main.bg)
+    # my_label_next.place(x=0, y=0, relwidth=1, relheight=1)
+    # my_label = my_label_next
+    # my_label_next.destroy()
+    # my_label.destroy()
 def handle_click_btnInsert(event): # Create function to handle btnInsert
 
-    clear_main_label()
+    # clear_main_label()
 
     def clear(): # function to remove a character in the entered text
         Entry.delete(text_enter, 0)
@@ -28,6 +29,7 @@ def handle_click_btnInsert(event): # Create function to handle btnInsert
                 text_update += text[i]
 
         text_label['text'] = text_update
+        SQL.save_in_history(text_label['text'])
 
     def exitInsert():
         pass
