@@ -28,8 +28,8 @@ class Function(Helper):
         def exitInsert():
             pass
 
-        if Function.onClickInsert: # if the button is not pressed, the process starts 
-            text_label = Label() # Create window for text 
+        if Function.onClickInsert: # if the button is not pressed, the process starts
+            text_label = Label() # Create window for text
             text_enter = Entry() # Create window to input text
             text_label.pack(anchor=CENTER, padx=6, pady=6)
             text_enter.pack(anchor=CENTER, padx=6, pady=6)
@@ -50,11 +50,7 @@ class Function(Helper):
 
     
 
-class Home(Helper):
-    onClickHome = True
-    def __init__(self, root_out, onClickHome):
-        super().__init__(root_out)
-        self.onClickHome = onClickHome
+
 
 def handle_click_btnRandom(event):
     label_theme = Label( background='#d7ebf4',width=20,height=200,text='Themes',font='Bold',anchor='n',pady = 10)
@@ -73,8 +69,12 @@ def create_buttons_themes():
     btnSocial.place(x = 200,y =60)
     btnTechnology.place(x = 200,y =90)
 
+class Home(Helper):
+    onClickHome = True
 
-
+    def __init__(self, root_out, onClickHome):
+        super().__init__(root_out)
+        self.onClickHome = onClickHome
 
     def handle_click_btnHome(event): # Create function to handle btnHome
         if Home.onClickHome: # if the button is not pressed, the process starts
