@@ -1,31 +1,21 @@
-import tkinter
 from tkinter import *
-from Application_main import *
-
-# class Function(Helper):
-#     onClickInsert = True
-#     def __init__(self, root_out, onClickInsert):
-#         super().__init__(root_out)
-#         self.onClickInsert = onClickInsert
+import Application_main
+from tkinter import ttk
+import tkinter.messagebox as mb
+import SQL
+from datetime import datetime
+from functools import partial
 
 def handle_click_btnInsert(event): # Create function to handle btnInsert
-
-
-    # application.my_label.place(x=0, y=0, relwidth=1, relheight=1)
-    def clear_main_label():
-        my_label_next = Label(image = bg)
-        my_label_next.place(x=0, y=0, relwidth=1, relheight=1)
-        my_label.destroy()
-        if hasattr(application, "my_label_next"):
-            self.my_label_next.destroy()
 
     def clear(): # function to remove a character in the entered text
         Entry.delete(text_enter, 0)
 
     def display(): # Function to display changed text
+        global text_update
+        text_update = ''
         text = text_enter.get()
         num_list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-        text_update = ''
         for i in range(len(text)):
             if text[i] in num_list:
                 text_update += '1,2,3'
@@ -33,44 +23,74 @@ def handle_click_btnInsert(event): # Create function to handle btnInsert
                 text_update += text[i]
 
         text_label['text'] = text_update
+        text_enter.delete(0, END)  # Deletes all entered text when click display
 
-    def exitInsert():
-        pass
 
-    # if Function.onClickInsert: # if the button is not pressed, the process starts
-        text_label = Label() # Create window for text
-        text_enter = Entry() # Create window to input text
-        text_label.pack(anchor=CENTER, padx=6, pady=6)
-        text_enter.pack(anchor=CENTER, padx=6, pady=6)
 
-        # Set parameters for buttons
+    def exit_insert():  # Function to exit out of insert label
+        text_label.destroy()
+        text_enter.destroy()
+        display_click_btnInsert.destroy()
+        clear_click_btnInsert.destroy()
+        btn_insert_exit.destroy()
+        global click_btn_insert
+        click_btn_insert = False
+
+    def save_in_history():
+        try:
+            SQL.save_in_history(text_update,datetime.now() )
+            print(datetime.now())
+            msg = 'Текст сохранен'
+            mb.showinfo("Сохранение", msg)
+        except NameError :           #if user didn't display a text - show a message
+            msg = 'Введите текст'
+            mb.showerror("Ошибка", msg)
+            return 0
+
+    global click_btn_insert
+    # Set parameters for buttons
+    click_btn_insert = False
+    if not click_btn_insert:
+        text_label = Label(height=20,width=100,anchor = 'e') # Create window for text
+        text_enter = Entry(justify= CENTER,width=50) # Create window to input text
+        text_enter.delete(0, END)
+        text_label.pack(anchor='e', padx=49, pady=6)
+        text_enter.place(anchor=CENTER, height=60,x = 580, y =400)
+
         display_click_btnInsert = Button(text='Display', command=display)
-        display_click_btnInsert.pack(anchor=CENTER, padx=6, pady=6)
+        display_click_btnInsert.place(x = 300,y = 500)
 
         clear_click_btnInsert = Button(text='Clear', command=clear)
-        clear_click_btnInsert.pack(anchor=CENTER, padx=6, pady=6)
+        clear_click_btnInsert.place(x = 300,y = 450)
 
-        # Function.onClickInsert = False
+        btn_insert_exit = Button(text='Закрыть', command=exit_insert)
+        btn_insert_exit.place(x = 300,y = 400)
 
-    text_label = Label(height=20,width=100,anchor = 'e') # Create window for text
-    text_enter = Entry(justify= tkinter.CENTER,width=50) # Create window to input text
-    text_label.pack(anchor='e', padx=49, pady=6)
-    text_enter.place(anchor=CENTER, height=60,x = 580, y =400)
+        btn_insert_exit = Button(text='Сохранить', command=save_in_history)
+        btn_insert_exit.place(x=300, y=350)
 
-    
+        click_btn_insert = True
 
 
 
 def handle_click_btnRandom(event):
-    label_theme = Label( background='#d7ebf4',width=20,height=200,text='Themes',font='Bold',anchor='n',pady = 10)
+    def handle_click_on_theme(theme):
+        label_theme.destroy() #after clicking on theme, left board will be deleted
+        btnNature.destroy()
+        btnSocial.destroy()
+        btnTechnology.destroy()
+        text_label = Label(height=20, width=100, anchor='e')
+        text_label.pack(anchor='e', padx=49, pady=6)
+        text_label['text'] = SQL.get_text_by_theme(theme)
+
+
+    label_theme = Label( background='#d7ebf4',width=20,height=200,text='Themes',font='Bold',anchor='n',pady = 10)  # create add. side for different themes
     label_theme.pack()
     label_theme.place(x=200)
-    create_buttons_themes()
-
-def create_buttons_themes():
-    btnNature = Button(text='Nature')
-    btnSocial =Button(text = 'Social')
-    btnTechnology = Button(text = 'Technology')
+    Nature, Social,Technology = 'Nature','Social','Technology'  #list of topics
+    btnNature = Button(text=Nature,command=partial(handle_click_on_theme, Nature))   #when the user selects, the text on this topic will be displayed
+    btnSocial = Button(text = Social, command=partial(handle_click_on_theme, Social))
+    btnTechnology = Button(text = Technology, command=partial(handle_click_on_theme,Social))
     btnNature.pack()
     btnSocial.pack()
     btnTechnology.pack()
@@ -78,25 +98,38 @@ def create_buttons_themes():
     btnSocial.place(x = 200,y =60)
     btnTechnology.place(x = 200,y =90)
 
-# class Home(Helper):
-#     onClickHome = True
-#
-#     def __init__(self, root_out, onClickHome):
-#         super().__init__(root_out)
-#         self.onClickHome = onClickHome
 
 def handle_click_btnHome(event): # Create function to handle btnHome
-    # if Home.onClickHome: # if the button is not pressed, the process starts
-        with open('home.txt', 'r') as file:
-            home_text = file.read() # Open and read file home.txt
-        try:
-            home_label = Label(text=home_text, anchor='n')
-            home_label_btn_close = Button(home_label, text='Закрыть', anchor='s', command=home_label.destroy)
-            # home_label.grid(row=100, column=59)
-            home_label.pack()
-            home_label_btn_close.pack(padx=200, pady=100)
-            # Home.onClickHome = False
+    with open('home.txt', 'r') as file:
+        home_text = file.read() # Open and read file home.txt
+    try:
+        home_label = Label(text=home_text, anchor='n')
+        home_label_btn_close = Button(home_label, text='Закрыть', anchor='s', command=home_label.destroy)
+        # home_label.grid(row=100, column=59)
+        home_label.pack()
+        home_label_btn_close.pack(padx=200, pady=100)
 
-        except Tk.report_callback_exception as ex:
-            print('Error!', ex)
+    except Tk.report_callback_exception as ex:
+        print('Error!', ex)
 
+def handle_click_btnHistory(event):  #create a table with date and your previos texts
+    # data
+    ls = SQL.return_text_for_history()
+    print(ls)
+
+    columns = ("text", "date")
+
+    tree = ttk.Treeview(columns=columns, show="headings",height=200)
+    # tree.grid(sticky = 'we',column=1,row=1)
+    tree.pack(side= RIGHT)
+
+    # table's head
+    tree.heading("text", text="text")
+    tree.heading("date", text="date")
+
+    tree.column("#1", stretch=YES, width=600)
+    tree.column("#2", stretch=YES, width=200)
+
+    # data
+    for text in ls:
+        tree.insert("", END, values=text)

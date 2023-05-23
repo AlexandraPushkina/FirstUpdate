@@ -1,85 +1,62 @@
 from tkinter import *
-
 import PIL.Image
 from PIL import Image, ImageTk
-import Handles
-
-class Helper:
-
-    def __init__(self, root_out):
-        self.root = root_out
-        self.root.geometry("1000x800")  #define the initial area of the window
-        self.root.resizable(0,0)
-
-        # #define background image
-        # self.initial_area = Label(bg='#8fbbea',width=1000,height=800)
-        # self.initial_area.place()
-        # self.user_name_entry = Entry()
-        # self.password_entry = Entry(show='*')
-        # self.btnConfirm = Button(self.initial_area, text = 'Confirm')
-        # self.btnClear = Button(self.initial_area, text = 'Clear')
-        # self.user_name_entry.pack()
-        # self.password_entry.pack()
-        # self.btnConfirm.pack()
-        # self.btnClear.pack()
-
-
-        self.bg = ImageTk.PhotoImage(master = self.root, file = 'pictures/background.png')
-        self.leftside = ImageTk.PhotoImage(master = self.root, file = "pictures/leftside.png")
-
-        #define title
-        self.root.title("ABC-helper")
-
-        #create main window(label)
-        self.my_label = Label(master=self.root, image = self.bg)
-        self.my_label.place(x=0, y=0, relwidth=1, relheight=1)   #set a coordinates of background
-
-
-        self.canvas = Canvas(self.root, width=200, height=800, highlightthickness=0)  #additional area
-        self.canvas.create_image(0, 0, anchor="nw", image=self.leftside)
-        self.canvas.pack()        #add canvas
-
-        self.canvas.place(x=0, y =0, width=200, height=800)          #set canvas in left side
-        self.canvas.create_line(200,0,200,800,fill = '#bec4da', width=5)     #create light line
-
-
-        self.btn0 = ImageTk.PhotoImage(master = self.root, file = "pictures/inserttext.png")      #open pictures for buttons
-
-        self.btn1 = ImageTk.PhotoImage(master = self.root,file = "pictures/randomtext.png")
-
-        self.btn2 = ImageTk.PhotoImage(master = self.root, file = "pictures/history.png")
-
-        self.btn3 = ImageTk.PhotoImage(master = self.root,file = "pictures/home.png")
-
-        self.btnInsert = Button(self.root, image=self.btn0, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39')  #create button in object - button
-        self.btnInsert.pack()             #show button
-        self.btnInsert.bind('<Button-1>', Handles.handle_click_btnInsert) # Run handle on click
-
-        self.btnRandom = Button(self.root, image = self.btn1, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39' )
-        self.btnRandom.pack()
-        self.btnRandom.bind('<Button-1>',Handles.handle_click_btnRandom)
-
-        self. btnHistory = Button(self.root,image = self.btn2, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39')
-        self.btnHistory.pack()
-
-        self.btnHome = Button(self.root, width = 500/3, height=200/3, image = self.btn3, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39' )
-        self.btnHome.pack()
-        self.btnHome.bind('<Button-1>', Handles.handle_click_btnHome) # Run handle on click
-
-        self.canvas.create_window(((200-500/3)/2-1.9,100), anchor = 'nw', window = self.btnInsert)      #set buttons on canvas
-        self.canvas.create_window(((200 - 500/3)/2-1.9, 200), anchor = 'nw', window = self.btnRandom)
-        self.canvas.create_window(((200 - 500/3)/2-1.9, 300), anchor = 'nw', window = self.btnHistory)
-        self.canvas.create_window(((50-500/3)/2 - 1.9, 737), anchor = 'nw', window = self.btnHome)
-
-    def clear_main_label(self):
-        self.my_label_next = Label(master=self.root, image = self.bg)
-        self.my_label_next.place(x=0, y=0, relwidth=1, relheight=1)
-        self.my_label.destroy()
-        if hasattr(application, "my_label_next"):
-            self.my_label_next.destroy()
-
+from Handles import *
 
 if __name__=='__main__':
-    root_out = Tk()
-    application = Helper(root_out)  #class object
-    root_out.mainloop()  # start application
+    root = Tk()
+
+    root.geometry("1000x800")  #define the initial area of the window
+    root.resizable(0,0)
+    # root.grid_columnconfigure(0,minsize=199)
+    # root.grid_columnconfigure(1,minsize=810)
+
+    bg = ImageTk.PhotoImage(master =root, file = 'pictures/background.png')
+    leftside = ImageTk.PhotoImage(master = root, file = "pictures/leftside.png")
+
+    #define title
+    root.title("ABC-helper")
+
+    #create main window(label)
+    my_label = Label(master=root, image = bg)
+    my_label.place(x=0, y=0, relwidth=1, relheight=1)   #set a coordinates of background
+
+
+    canvas = Canvas(root, width=200, height=800, highlightthickness=0)  #additional area
+    canvas.create_image(0, 0, anchor="nw", image=leftside)
+    canvas.pack()        #add canvas
+
+    canvas.place(x=0, y =0, width=200, height=800)          #set canvas in left side
+    canvas.create_line(200,0,200,800,fill = '#bec4da', width=5)     #create light line
+
+
+    btn0 = ImageTk.PhotoImage(master = root, file = "pictures/inserttext.png")      #open pictures for buttons
+
+    btn1 = ImageTk.PhotoImage(master = root,file = "pictures/randomtext.png")
+
+    btn2 = ImageTk.PhotoImage(master = root, file = "pictures/history.png")
+
+    btn3 = ImageTk.PhotoImage(master =root,file = "pictures/home.png")
+
+    btnInsert = Button(root, image=btn0, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39')  #create button in object - button
+    btnInsert.pack()             #show button
+    btnInsert.bind('<Button-1>',handle_click_btnInsert) # Run handle on click
+
+    btnRandom = Button(root, image = btn1, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39' )
+    btnRandom.pack()
+    btnRandom.bind('<Button-1>',handle_click_btnRandom)
+
+    btnHistory = Button(root,image =btn2, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39')
+    btnHistory.pack()
+    btnHistory.bind('<Button-1>', handle_click_btnHistory)
+
+    btnHome = Button(root, width = 500/3, height=200/3, image = btn3, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39' )
+    btnHome.pack()
+    btnHome.bind('<Button-4>', handle_click_btnHome) # Run handle on click
+
+    canvas.create_window(((200-500/3)/2-1.9,100), anchor = 'nw', window = btnInsert)      #set buttons on canvas
+    canvas.create_window(((200 - 500/3)/2-1.9, 200), anchor = 'nw', window = btnRandom)
+    canvas.create_window(((200 - 500/3)/2-1.9, 300), anchor = 'nw', window = btnHistory)
+    canvas.create_window(((50-500/3)/2 - 1.9, 737), anchor = 'nw', window = btnHome)
+
+    root.mainloop()  # start application
