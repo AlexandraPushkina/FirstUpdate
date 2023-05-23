@@ -1,26 +1,15 @@
 from tkinter import *
 import PIL.Image
 from PIL import Image, ImageTk
-import Handles
+from Handles import *
 
 if __name__=='__main__':
     root = Tk()
 
     root.geometry("1000x800")  #define the initial area of the window
     root.resizable(0,0)
-
-    # #define background image
-    # self.initial_area = Label(bg='#8fbbea',width=1000,height=800)
-    # self.initial_area.place()
-    # self.user_name_entry = Entry()
-    # self.password_entry = Entry(show='*')
-    # self.btnConfirm = Button(self.initial_area, text = 'Confirm')
-    # self.btnClear = Button(self.initial_area, text = 'Clear')
-    # self.user_name_entry.pack()
-    # self.password_entry.pack()
-    # self.btnConfirm.pack()
-    # self.btnClear.pack()
-
+    # root.grid_columnconfigure(0,minsize=199)
+    # root.grid_columnconfigure(1,minsize=810)
 
     bg = ImageTk.PhotoImage(master =root, file = 'pictures/background.png')
     leftside = ImageTk.PhotoImage(master = root, file = "pictures/leftside.png")
@@ -51,18 +40,19 @@ if __name__=='__main__':
 
     btnInsert = Button(root, image=btn0, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39')  #create button in object - button
     btnInsert.pack()             #show button
-    btnInsert.bind('<Button-1>',Handles.handle_click_btnInsert) # Run handle on click
+    btnInsert.bind('<Button-1>',handle_click_btnInsert) # Run handle on click
 
     btnRandom = Button(root, image = btn1, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39' )
     btnRandom.pack()
-    btnRandom.bind('<Button-1>',Handles.handle_click_btnRandom)
+    btnRandom.bind('<Button-1>',handle_click_btnRandom)
 
     btnHistory = Button(root,image =btn2, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39')
     btnHistory.pack()
+    btnHistory.bind('<Button-1>', handle_click_btnHistory)
 
     btnHome = Button(root, width = 500/3, height=200/3, image = btn3, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39' )
     btnHome.pack()
-    btnHome.bind('<Button-1>', Handles.handle_click_btnHome) # Run handle on click
+    btnHome.bind('<Button-4>', handle_click_btnHome) # Run handle on click
 
     canvas.create_window(((200-500/3)/2-1.9,100), anchor = 'nw', window = btnInsert)      #set buttons on canvas
     canvas.create_window(((200 - 500/3)/2-1.9, 200), anchor = 'nw', window = btnRandom)
