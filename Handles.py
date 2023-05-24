@@ -1,6 +1,6 @@
 from tkinter import *
 from Main import *
-
+from datetime import datetime
 
 click_btn_insert = False
 def handle_click_btnInsert(): # Create function to handle btnInsert
@@ -9,17 +9,24 @@ def handle_click_btnInsert(): # Create function to handle btnInsert
         Entry.delete(text_enter, 0, END) # Deletes all entered text
 
     def display(): # Function to display changed text
-        text_update = ''
-        text = text_enter.get()
-        num_list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-        for i in range(len(text)):
-            if text[i] in num_list:
-                text_update += '1,2,3'
-            else:
-                text_update += text[i]
+        # text_update = ''
+        text = text_enter.get() # Get string from text_enter
+        text_list = text.split(' ') # Create list of enter words
 
-        text_label['text'] = text_update
+        with open('regular_verbs.txt', 'r', encoding='utf-8') as f:
+            word_list = f.read()
+        
+        for i in range(len(text_list)): # If entered words are in regular_verbs, change them on True
+            if text_list[i] in word_list:
+                text_list[i] = 'True' 
+
+        new_text = ' '.join(text_list) # Return string from list of enter words
+
+        text_label['text'] = new_text
         text_enter.delete(0, END) # Deletes all entered text when click display
+
+        with open('words.txt', 'a', encoding='utf-8') as file:
+            file.write(f"{new_text} \t {''.join(str(datetime.now()))}\n")
 
     def exit_insert(): # Function to exit out of insert label
         text_label.destroy()
