@@ -1,5 +1,4 @@
 from tkinter import *
-import PIL.Image
 from PIL import Image, ImageTk
 from Handles import *
 

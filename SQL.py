@@ -14,9 +14,10 @@ def get_text_by_theme(theme):  # connection and query for database
     )
     cursor = connection.cursor()
     query = 'SELECT text FROM words.text_collections WHERE theme = %s ORDER BY RAND() LIMIT 1;'  # query with parametr
-    cursor.execute(query, (theme,))
-    connection.close()
+    cursor.execute(query, (theme))
     return str(cursor.fetchall())[3:-4]  # return str without unnecessary symbols ('[]')
+    connection.close()
+
 
 
 def save_in_history(text, date):
@@ -74,3 +75,5 @@ def cast_verbs(word):  # return 3 or 4 words
             return (' '.join(*ls))
         except TypeError:
             return False
+
+# print(get_text_by_theme(['Nature']))
