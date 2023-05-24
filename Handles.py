@@ -1,5 +1,6 @@
 from tkinter import *
 import Application_main
+from  PIL import  ImageTk, Image
 from tkinter import ttk
 import tkinter.messagebox as mb
 import SQL
@@ -9,12 +10,16 @@ from functools import partial
 def handle_click_btnInsert(event): # Create function to handle btnInsert
 
     def clear(): # function to remove a character in the entered text
-        Entry.delete(text_enter, 0)
+        try:
+           Text.delete(text_entry, 0)
+        except TclError:
+            return 0
+
 
     def display(): # Function to display changed text
         global text_update
         text_update = ''
-        text = text_enter.get()
+        text = text_entry.get("1.0","end-1c")
         num_list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
         for i in range(len(text)):
             if text[i] in num_list:
@@ -22,17 +27,12 @@ def handle_click_btnInsert(event): # Create function to handle btnInsert
             else:
                 text_update += text[i]
 
-        text_label['text'] = text_update
-        text_enter.delete(0, END)  # Deletes all entered text when click display
-
+        text_output.insert(1.0, text_update)
+        text_entry.delete("1.0","end-1c")  # Deletes all entered text when click display
 
 
     def exit_insert():  # Function to exit out of insert label
-        text_label.destroy()
-        text_enter.destroy()
-        display_click_btnInsert.destroy()
-        clear_click_btnInsert.destroy()
-        btn_insert_exit.destroy()
+        destroy_all( text_entry,text_output,display_click_btnInsert,clear_click_btnInsert,btn_insert_exit,scroll_entry,scroll_output)
         global click_btn_insert
         click_btn_insert = False
 
@@ -50,38 +50,51 @@ def handle_click_btnInsert(event): # Create function to handle btnInsert
     global click_btn_insert
     # Set parameters for buttons
     click_btn_insert = False
+
     if not click_btn_insert:
-        text_label = Label(height=20,width=100,anchor = 'e') # Create window for text
-        text_enter = Entry(justify= CENTER,width=50) # Create window to input text
-        text_enter.delete(0, END)
-        text_label.pack(anchor='e', padx=49, pady=6)
-        text_enter.place(anchor=CENTER, height=60,x = 580, y =400)
+        text_output = Text(height=20,width=88, bg='#bec4da',wrap=WORD)
+        text_entry = Text(height=20,width=88,bg='#bec4da',wrap=WORD)
+        scroll_entry = Scrollbar(command=text_entry.yview())
+        scroll_output = Scrollbar(command=text_output.yview())
 
-        display_click_btnInsert = Button(text='Display', command=display)
-        display_click_btnInsert.place(x = 300,y = 500)
+        text_output.pack(anchor='e', padx=49, pady=10)
+        text_entry.pack(anchor='e', padx=49, pady=60)
+        scroll_output.pack(side = LEFT, fill=Y)
+        scroll_entry.pack(side = LEFT, fill=Y)
+        text_output.config(yscrollcommand=scroll_output.set)
+        text_entry.config(yscrollcommand=scroll_entry.set)
 
-        clear_click_btnInsert = Button(text='Clear', command=clear)
-        clear_click_btnInsert.place(x = 300,y = 450)
 
-        btn_insert_exit = Button(text='Закрыть', command=exit_insert)
-        btn_insert_exit.place(x = 300,y = 400)
+        btn4 = ImageTk.PhotoImage(file="pictures/little_Display.png")
+        btn5 = ImageTk.PhotoImage(file = "pictures/little_Clear.png")
+        btn6 = ImageTk.PhotoImage(file = "pictures/little_Close.png")
+        btn7 = ImageTk.PhotoImage(file = "pictures/little_Display.png")
 
-        btn_insert_exit = Button(text='Сохранить', command=save_in_history)
-        btn_insert_exit.place(x=300, y=350)
+
+        display_click_btnInsert = Button(text = 'Display', command=display)
+        display_click_btnInsert.place(x = 250,y = 350)
+
+        clear_click_btnInsert = Button(text = 'Clear', command=clear)
+        clear_click_btnInsert.place(x = 330,y = 350)
+
+        btn_insert_exit = Button(text = 'Close!', command=partial(exit_insert))
+        btn_insert_exit.place(x = 700,y = 350)
+
+        btn_insert_exit = Button(text = 'Save', command=save_in_history)
+        btn_insert_exit.place(x = 380,y = 350)
 
         click_btn_insert = True
 
-
+def destroy_all(*args):
+    for i in args:
+        i.destroy()
 
 def handle_click_btnRandom(event):
     def handle_click_on_theme(theme):
-        label_theme.destroy() #after clicking on theme, left board will be deleted
-        btnNature.destroy()
-        btnSocial.destroy()
-        btnTechnology.destroy()
-        text_label = Label(height=20, width=100, anchor='e')
-        text_label.pack(anchor='e', padx=49, pady=6)
-        text_label['text'] = SQL.get_text_by_theme(theme)
+        destroy_all(label_theme, btnNature,btnSocial,btnTechnology)
+        text = Text(height=20,width=88, bg='#bec4da',wrap=WORD)
+        text.pack(anchor='e', padx=49, pady=10)
+        text.insert(1.0,(SQL.get_text_by_theme([theme])))
 
 
     label_theme = Label( background='#d7ebf4',width=20,height=200,text='Themes',font='Bold',anchor='n',pady = 10)  # create add. side for different themes
@@ -90,7 +103,7 @@ def handle_click_btnRandom(event):
     Nature, Social,Technology = 'Nature','Social','Technology'  #list of topics
     btnNature = Button(text=Nature,command=partial(handle_click_on_theme, Nature))   #when the user selects, the text on this topic will be displayed
     btnSocial = Button(text = Social, command=partial(handle_click_on_theme, Social))
-    btnTechnology = Button(text = Technology, command=partial(handle_click_on_theme,Social))
+    btnTechnology = Button(text = Technology, command=partial(handle_click_on_theme,Technology))
     btnNature.pack()
     btnSocial.pack()
     btnTechnology.pack()
