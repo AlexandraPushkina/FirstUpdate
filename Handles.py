@@ -9,12 +9,12 @@ from functools import partial
 def handle_click_btnInsert(event): # Create function to handle btnInsert
 
     def clear(): # function to remove a character in the entered text
-        Entry.delete(text_enter, 0)
+         Text.delete(text_text, 0)
 
     def display(): # Function to display changed text
         global text_update
         text_update = ''
-        text = text_enter.get()
+        text = text_text.get("1.0","end-1c")
         num_list = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
         for i in range(len(text)):
             if text[i] in num_list:
@@ -22,14 +22,14 @@ def handle_click_btnInsert(event): # Create function to handle btnInsert
             else:
                 text_update += text[i]
 
-        text_label['text'] = text_update
-        text_enter.delete(0, END)  # Deletes all entered text when click display
+        # text_label['text'] = text_update
+        text_text.delete("1.0","end-1c")  # Deletes all entered text when click display
 
 
 
     def exit_insert():  # Function to exit out of insert label
         text_label.destroy()
-        text_enter.destroy()
+        # text_enter.destroy()
         display_click_btnInsert.destroy()
         clear_click_btnInsert.destroy()
         btn_insert_exit.destroy()
@@ -52,10 +52,13 @@ def handle_click_btnInsert(event): # Create function to handle btnInsert
     click_btn_insert = False
     if not click_btn_insert:
         text_label = Label(height=20,width=100,anchor = 'e') # Create window for text
-        text_enter = Entry(justify= CENTER,width=50) # Create window to input text
-        text_enter.delete(0, END)
+        # text_enter = Entry(justify= CENTER,width=50) # Create window to input text
+        text_text = Text(height=20,width=88)
+
+        # text_enter.delete(0, END)
         text_label.pack(anchor='e', padx=49, pady=6)
-        text_enter.place(anchor=CENTER, height=60,x = 580, y =400)
+        # text_enter.place(anchor=CENTER, height=60,x = 580, y =400)
+        text_text.pack(anchor='e', padx=49, pady=60)
 
         display_click_btnInsert = Button(text='Display', command=display)
         display_click_btnInsert.place(x = 300,y = 500)
