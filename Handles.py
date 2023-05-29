@@ -1,6 +1,7 @@
 from tkinter import *
 from Main import *
 from datetime import datetime
+import json
 
 click_btn_insert = False
 def handle_click_btnInsert(): # Create function to handle btnInsert
@@ -10,23 +11,24 @@ def handle_click_btnInsert(): # Create function to handle btnInsert
 
     def display(): # Function to display changed text
         # text_update = ''
-        text = text_enter.get() # Get string from text_enter
-        text_list = text.split(' ') # Create list of enter words
+        text = text_enter.get().lower() # Get string from text_enter. Make them in lower case
+        text_list = text.replace('.', '|.').replace('!', '|!').replace('?', '|?').replace(',', '|,').replace(' ', '|').split('|') # Create list of enter words
 
-        with open('regular_verbs.txt', 'r', encoding='utf-8') as f:
-            word_list = f.read()
+        with open('all_verbs.json', 'r', encoding='utf-8') as f: # Joined regular and irregular verbs in all_verbs.json
+            words_list = json.load(f) 
         
-        for i in range(len(text_list)): # If entered words are in regular_verbs, change them on True
-            if text_list[i] in word_list:
-                text_list[i] = 'True' 
+        for i in range(len(words_list)): # Looping through all the words in the words_list
+            for j in range(len(text_list)):
+                if text_list[j] in words_list[i]: # If entered words matched with word_list, replace this words to list of verbs
+                    text_list[j] = ' '.join(words_list[i]) 
 
-        new_text = ' '.join(text_list) # Return string from list of enter words
+        new_text = ' '.join(text_list).replace(' ?', '?').replace(' .', '.').replace(' ,', ',').replace(' !', '!') # Return string from list of enter words
 
-        text_label['text'] = new_text
+        text_label['text'] = new_text.capitalize() # Return changed and capitalize string 
         text_enter.delete(0, END) # Deletes all entered text when click display
 
-        with open('words.txt', 'a', encoding='utf-8') as file:
-            file.write(f"{new_text} \t {''.join(str(datetime.now()))}\n")
+        with open('words.txt', 'a', encoding='utf-8') as file: # Save string in words.txt with current datetime
+            file.write(f"{new_text.capitalize()} \t {''.join(str(datetime.now()))}\n")
 
     def exit_insert(): # Function to exit out of insert label
         text_label.destroy()

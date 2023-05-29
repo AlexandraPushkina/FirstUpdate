@@ -1,2 +1,39 @@
 
 1 True 1 	 2023-05-23 21:06:29.201185
+qwe1 	 2023-05-27 20:32:57.508760
+True 	 2023-05-27 20:33:02.804870
+True 	 2023-05-27 20:33:07.124877
+True 	 2023-05-27 20:33:10.461354
+a1 	 2023-05-27 20:33:12.892669
+True 	 2023-05-27 20:33:15.996880
+all1 	 2023-05-27 20:33:19.069379
+True 1 	 2023-05-27 20:33:21.916642
+always 2 	 2023-05-27 20:33:29.557638
+True True 12 	 2023-05-27 20:34:23.740878
+qw 4 True 	 2023-05-27 20:34:30.756862
+all 1 	 2023-05-27 21:04:51.732328
+True 2 	 2023-05-27 21:04:56.882756
+hjvjhhjv 	 2023-05-27 21:10:03.892816
+qwer 1 	 2023-05-27 21:57:45.865759
+al 	 2023-05-27 21:57:48.984892
+True 	 2023-05-27 21:57:52.402995
+True 	 2023-05-27 21:57:58.160342
+we 	 2023-05-27 21:58:00.823974
+wea 	 2023-05-27 21:58:03.065692
+True 	 2023-05-27 21:58:05.597899
+baet 	 2023-05-27 21:58:30.130942
+True 	 2023-05-27 21:58:34.572574
+[ ' I ' ,   ' m u s t ' ,   [ ' r u n ' ,   ' r a n ' ] ] 	 2023-05-28 02:18:39.856800
+['I', 'must', ['run', 'ran']] 	 2023-05-28 02:18:58.288359
+[ ' i ' ,   [ ' r u n ' ,   ' r a n ' ] ] 	 2023-05-28 02:20:04.168455
+Irun ranaway 	 2023-05-28 02:23:17.304525
+I go went gone to the school 	 2023-05-28 02:26:13.536671
+Do you want wanted wants wanting eat? 	 2023-05-28 02:26:40.312431
+Run or walk walked walks walking away 	 2023-05-28 02:34:27.664880
+run ran or walk walked walks walking away 	 2023-05-28 02:35:28.736861
+run ran or walk walked walks walking away 	 2023-05-28 02:36:08.129040
+run ran or walk walked walks walking away 	 2023-05-28 02:36:34.880962
+hello world! 	 2023-05-28 02:43:24.985614
+do did done you want wanted wants wanting drink? 	 2023-05-28 02:43:46.945379
+do did done you want wanted wants wanting coffee or walk walked walks walking? 	 2023-05-28 02:56:27.290168
+How do did done you do did done? 	 2023-05-28 02:57:31.882823
