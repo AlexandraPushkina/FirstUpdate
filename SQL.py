@@ -76,15 +76,17 @@ def cast_verbs(word):  # return 3 or 4 words
         cursor.execute(query, (word,word,word,word))
         for row in cursor.fetchall():
             ls.append(row)
-        connection.close()
+        # connection.close()
         return (' '.join(*ls))  # get list  word word word
     except TypeError:
         try:
+            ls = []
+            cursor = connection.cursor(buffered=True)
             query2 = 'SELECT choice1,choice2,choice3,choice4 FROM words.regular_verbs WHERE choice1 = %s OR choice2= %s OR choice3 = %s OR choice4 = %s LIMIT 1;'
             cursor.execute(query2, (word, word, word,word))
             for row in cursor.fetchall():  #Переделать. Возвращает 0-ой индекс cursor.fetchall()[0]
                 ls.append(row)  # get list with tuples [(text,date),....,(text,date)]
-            connection.close()
+            # connection.close()
             return (' '.join(*ls))
         except TypeError:
             connection.close()
