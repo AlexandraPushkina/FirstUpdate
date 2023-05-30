@@ -1,4 +1,4 @@
-This is pet project created by @LubluWafli, @KashitynP, and @AlexandraPushkina.
+This is pet project created by @KashitynP, and @AlexandraPushkina.
 
 ABC-helper can improve your grammatical skill. 
 Just insert a text and application make your text in select-correct-word format. 

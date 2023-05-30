@@ -1,6 +1,5 @@
 from tkinter import *
 # from PIL import ImageTk
-
 from Handles import *
 
 class Helper:
@@ -31,13 +30,13 @@ class Helper:
 
 
         self.btn0 = PhotoImage(file = "pictures/inserttext.png")      #open pictures for buttons
-        self.btn0 = self.btn0.subsample(3, 3)                                #reduce their size
+
 
         self.btn1 = PhotoImage(file = "pictures/randomtext.png")
-        self.btn1 = self.btn1.subsample(3, 3)
+
 
         self.btn2 = PhotoImage(file = "pictures/history.png")
-        self.btn2 = self.btn2.subsample(3, 3)
+
 
         self.btn3 = PhotoImage(file = "pictures/home.png")
 
