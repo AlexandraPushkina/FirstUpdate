@@ -1,7 +1,10 @@
+import tkinter.font
 from tkinter import *
+import random
+import re
+import copy
 from PIL import ImageTk, Image
 from tkinter import ttk
-import tkinter.messagebox as mb
 from datetime import datetime
 from functools import partial
 from Main import *
@@ -10,6 +13,7 @@ import json
 
 
 def handle_click_btnInsert():  # Create function to handle btnInsert
+
     def clear():  # function to remove a character in the entered text
         try:
             Text.delete(text_entry, 0)
@@ -44,16 +48,26 @@ def handle_click_btnInsert():  # Create function to handle btnInsert
         with open('words.txt', 'a', encoding='utf-8') as file:  # Save string in words.txt with current datetime
             file.write(f"{new_text.capitalize()} \t {''.join(str(datetime.now()))}\n")
 
+
     global click_btn_insert
     click_btn_insert = False
     if not click_btn_insert:  # if the button is not pressed, the process starts
         text_output = Text(height=17, width=68, bg='#bec4da', wrap=WORD, font='Times')
+
         text_entry = Text(height=17, width=88, bg='#bec4da', wrap=WORD, font='Times')  # Create window to input text
         right_frame = Text(height=17, width=18, bg='#bec4da', wrap=WORD, font='Times')
 
         text_output.place(y=35, x=240)
         text_entry.place(y=435, x=240)
         right_frame.place(x=800, y=35)
+        text_entry = Text(height=17, width=88, bg='#bec4da', wrap=WORD, font='Times')
+        right_frame = Canvas(height=323, width=147, bg='#bec4da')
+
+        text_output.place(y=35, x=240)
+        text_entry.place(y=435, x=240)
+        right_frame.place(x=800, y=35)
+
+
 
         btn4 = ImageTk.PhotoImage(file="pictures/little_Display.png")
         btn5 = ImageTk.PhotoImage(file="pictures/little_Clear.png")
@@ -67,6 +81,8 @@ def handle_click_btnInsert():  # Create function to handle btnInsert
                                  command=partial(exit_insert, text_entry, text_output, display_click_btnInsert,
                                                  clear_click_btnInsert))
         btn_insert_save = Button(text='Save')
+
+        display_click_btnInsert = Button(text='Display', command=display)
 
         display_click_btnInsert.place(x=250, y=385)
         clear_click_btnInsert.place(x=330, y=385)
@@ -82,16 +98,12 @@ def destroy_all(*args):
 
 
 def handle_click_btnRandom(event):
-    def handle_click_on_theme(theme):
-        destroy_all(label_theme, btnNature, btnSocial, btnTechnology)
-        text = Text(height=20, width=88, bg='#bec4da', wrap=WORD)
-        text.pack(anchor='e', padx=49, pady=10)
-        # text.insert(1.0, ()) insert from .txt
 
-    label_theme = Label(background='#d7ebf4', width=20, height=200, text='Themes', font='Bold', anchor='n',
-                        pady=10)  # create add. side for different themes
-    label_theme.pack()
-    label_theme.place(x=200)
+    canvas_theme = Canvas(background='#d7ebf4', width=150, height=800)
+    canvas_theme.place(x=200)
+    label_theme = Label(canvas_theme, background='#d7ebf4', text='Themes', font=('Times', 15, tkinter.font.BOLD),
+                        anchor='n')  # create add. side for different themes
+    label_theme.place(x=30)
     Nature, Social, Technology = 'Nature', 'Social', 'Technology'  # list of topics
     btnNature = Button(text=Nature)  # when the user selects, the text on this topic will be displayed
     btnSocial = Button(text=Social)
@@ -115,6 +127,7 @@ def handle_click_btnHome():  # Create function to handle btnHome
         home_label.destroy()
 
     global click_btn_home
+    click_btn_home =  False
     if not click_btn_home:
         with open('home.txt', 'r') as file:
             home_text = file.read()  # Open and read file home.txt
@@ -126,3 +139,5 @@ def handle_click_btnHome():  # Create function to handle btnHome
             click_btn_home = True
         except Tk.report_callback_exception as ex:
             print('Error!', ex)
+
+
