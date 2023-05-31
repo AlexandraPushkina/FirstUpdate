@@ -10,9 +10,6 @@ if __name__=='__main__':
     # root.grid_columnconfigure(0,minsize=199)
     # root.grid_columnconfigure(1,minsize=810)
 
-
-
-
     bg = ImageTk.PhotoImage(master =root, file = 'pictures/background.png')
     leftside = ImageTk.PhotoImage(master = root, file = "pictures/leftside.png")
 

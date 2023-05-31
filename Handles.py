@@ -65,26 +65,27 @@ def handle_click_btnInsert(event, from_random, random_text):  # Create function 
         count = 1
         array = [word1, word2, word3]
         random.shuffle(array)
-        print(array[0])
-        choice1 = Button(master=right_frame, activeforeground='red',
+        choice1 = Button(second_frame, activeforeground='red',
                          bg='#bec4da', activebackground='#bec4da',
                          highlightthickness=1, bd=0, font='Times',
                          text=array[0])
-        choice2 = Button(master=right_frame, activeforeground='red',
+        choice2 = Button(second_frame, activeforeground='red',
                          bg='#bec4da', activebackground='#bec4da',
                          highlightthickness=1, bd=0, font='Times',
                          text=array[1])
-        choice3 = Button(master=right_frame, activeforeground='red',
+        choice3 = Button(second_frame, activeforeground='red',
                          bg='#bec4da', activebackground='#bec4da',
                          highlightthickness=1, bd=0, font='Times',
                          text=array[2])
         choice1.pack()
         choice2.pack()
         choice3.pack()
-        count+=30
+        count += 30
 
     def exit_insert():  # Function to exit out of insert label
-        destroy_all(text_entry, text_output, display_click_btnInsert, clear_click_btnInsert, btn_insert_exit)
+        print(True)
+        destroy_all(text_entry, text_output, display_click_btnInsert, clear_click_btnInsert, btn_insert_save,
+                    right_frame, btn_insert_exit)
         global click_btn_insert
         click_btn_insert = False
 
@@ -103,20 +104,30 @@ def handle_click_btnInsert(event, from_random, random_text):  # Create function 
     click_btn_insert = False
 
     if not click_btn_insert:
+        # main_frame = Frame(height=323, width=147)
+        # main_frame.place(x=800, y=35)
         text_output = Text(height=17, width=68, bg='#bec4da', wrap=WORD, font='Times')
         text_entry = Text(height=17, width=88, bg='#bec4da', wrap=WORD, font='Times')
-        right_frame = Canvas(height=323, width=147, bg='#bec4da',scrollregion=(-1000,-1000,1000,1000))
-
         text_output.place(y=35, x=240)
         text_entry.place(y=435, x=240)
+
+        right_frame = Canvas(height=323, width=147, bg='#bec4da')
         right_frame.place(x=800, y=35)
+
+        my_scrollbar = Scrollbar(right_frame, orient=VERTICAL, command=right_frame.yview)
+        right_frame.configure(yscrollcommand=my_scrollbar.set)
+        right_frame.bind('<Configure>', lambda e: right_frame.configure(scrollregion=right_frame.bbox('all')))
+        my_scrollbar.place(x=133, y=1, height=323)
+
+        second_frame = Frame(right_frame, width=100, height=100, bg='#bec4da')
+
+        right_frame.create_window((0, 0), window=second_frame, anchor='nw')
 
 
         btn4 = ImageTk.PhotoImage(file="pictures/little_Display.png")
         btn5 = ImageTk.PhotoImage(file="pictures/little_Clear.png")
         btn6 = ImageTk.PhotoImage(file="pictures/little_Close.png")
         btn7 = ImageTk.PhotoImage(file="pictures/little_Display.png")
-
 
         display_click_btnInsert = Button(text='Display', command=partial(display, False))
         display_click_btnInsert.place(x=250, y=385)
@@ -127,8 +138,8 @@ def handle_click_btnInsert(event, from_random, random_text):  # Create function 
         btn_insert_exit = Button(text='Close!', command=partial(exit_insert))
         btn_insert_exit.place(x=700, y=385)
 
-        btn_insert_exit = Button(text='Save', command=save_in_history)
-        btn_insert_exit.place(x=380, y=385)
+        btn_insert_save = Button(text='Save', command=save_in_history)
+        btn_insert_save.place(x=380, y=385)
 
         click_btn_insert = True
 
