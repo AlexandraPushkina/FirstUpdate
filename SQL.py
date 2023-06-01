@@ -131,4 +131,5 @@ def confirm_user(name, password):
 #register_new_user('Anna','2001.03')
 #print(confirm_user('Sam','london'))
 #print(confirm_user('Sam','london'))  #return Sam's texts
-print(return_user_name(confirm_user('Sam','london')))
+#print(return_user_name(confirm_user('Sam','london')))
+print(len(cast_verbs('write').split()))

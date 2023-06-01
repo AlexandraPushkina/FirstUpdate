@@ -21,18 +21,18 @@ def handle_click_btnInsert(event, from_random, random_text):  # Create function 
             return 0
 
     def display(random_text):  # Function to display changed text
+        global  list_of_correct_words
+        global miss_count
         global text_update
+        list_of_correct_words = []
+        miss_count = 1
         text_update = ''
-        text_update_for_searching = ''
         if random_text:
             text = random_text
         else:
             text = text_entry.get("1.0", "end-1c")
-        text_list = text.split(' ')
         text_update = ''
-        text_update_for_searching = ''
         text_list = text.split(' ')
-        text_for_searching = copy.copy(text_list)
         text_for_searching = text.split(' ')
         for i in range(len(text_for_searching)):  # cleaning text from signes
             if re.search(r'\W', text_for_searching[i]):
@@ -45,11 +45,23 @@ def handle_click_btnInsert(event, from_random, random_text):  # Create function 
         final_text_in_list = re.findall(r'[0-9]+|[A-z]+|"|!', str(text_list))  # copy text_list, without space and comma
         final_text_in_list = final_text_in_list[1:-1]
         for i in (range(len(text_update_for_searching))):  # in "naked" text searching right words
+            # if SQL.cast_verbs(text_update_for_searching[i]):
             if SQL.cast_verbs(text_update_for_searching[i]):
-                create_radio_button(re.findall(r'\w+', SQL.cast_verbs(text_update_for_searching[i]))[0],
-                                    re.findall(r'\w+', SQL.cast_verbs(text_update_for_searching[i]))[1],
-                                    re.findall(r'\w+', SQL.cast_verbs(text_update_for_searching[i]))[2])
-                final_text_in_list[i] = '(...,...,...)'  # return 3 or 4 words
+                    if len(SQL.cast_verbs(text_update_for_searching[i]).split())==4:  #if quantity of words is 4
+                        list_of_correct_words.append(text_update_for_searching[i])
+                        insert_listbox(re.findall(r'\w+', SQL.cast_verbs(text_update_for_searching[i]))[0],
+                                            re.findall(r'\w+', SQL.cast_verbs(text_update_for_searching[i]))[1],
+                                            re.findall(r'\w+', SQL.cast_verbs(text_update_for_searching[i]))[2],
+                                            re.findall(r'\w+', SQL.cast_verbs(text_update_for_searching[i]))[3],miss_count=miss_count)  #add 4 words
+                    else:
+                        list_of_correct_words.append(text_update_for_searching[i])
+                        insert_listbox(re.findall(r'\w+', SQL.cast_verbs(text_update_for_searching[i]))[0],
+                                       re.findall(r'\w+', SQL.cast_verbs(text_update_for_searching[i]))[1],
+                                       re.findall(r'\w+', SQL.cast_verbs(text_update_for_searching[i]))[2],
+                                       miss_count=miss_count)
+
+                    final_text_in_list[i] = '(...,...,...)'  # replace in text
+                    miss_count+=1   # how many missing words
 
         final_text = ''
         for el in final_text_in_list:  # making a text in normal str-format
@@ -60,36 +72,27 @@ def handle_click_btnInsert(event, from_random, random_text):  # Create function 
         text_output.insert(1.0, final_text)
         text_entry.delete("1.0", "end-1c")  # Deletes all entered text when click display
 
-    def create_radio_button(word1, word2, word3):
-        global count
-        count = 1
-        array = [word1, word2, word3]
+    def insert_listbox(*args,miss_count):
+        array = [*args]
         random.shuffle(array)
-        choice1 = Button(second_frame, activeforeground='red',
-                         bg='#bec4da', activebackground='#bec4da',
-                         highlightthickness=1, bd=0, font='Times',
-                         text=array[0])
-        choice2 = Button(second_frame, activeforeground='red',
-                         bg='#bec4da', activebackground='#bec4da',
-                         highlightthickness=1, bd=0, font='Times',
-                         text=array[1])
-        choice3 = Button(second_frame, activeforeground='red',
-                         bg='#bec4da', activebackground='#bec4da',
-                         highlightthickness=1, bd=0, font='Times',
-                         text=array[2])
-        choice1.pack()
-        choice2.pack()
-        choice3.pack()
-        count += 30
+        words_listbox.insert(END, f'{str(miss_count)}-th missing')
+        for i in array:
+            words_listbox.insert(END, i)        #iadding words to the bottom of the list
+        miss_count+=1
+
+    def selected(event):   #return selected words in Listbox
+            selected_indices = words_listbox.curselection()
+            # получаем сами выделенные элементы
+            selected_words = " ".join([words_listbox.get(i) for i in selected_indices])
+            return selected_words
 
     def exit_insert():  # Function to exit out of insert label
-        print(True)
         destroy_all(text_entry, text_output, display_click_btnInsert, clear_click_btnInsert, btn_insert_save,
-                    right_frame, btn_insert_exit)
+                    right_frame, btn_insert_exit, check_click_btnInsert)
         global click_btn_insert
         click_btn_insert = False
 
-    def save_in_history():
+    def save_in_history():   #doesn't work now
         try:
             SQL.save_in_history(text_update, datetime.now())
             msg = 'Текст сохранен'
@@ -99,35 +102,47 @@ def handle_click_btnInsert(event, from_random, random_text):  # Create function 
             mb.showerror("Ошибка", msg)
             return 0
 
+    def check_text():  #check the correctness of the choice
+        point = 0
+        global list_of_correct_words
+        global miss_count
+        chosen_words = selected(event).split()
+        if len(chosen_words) != len(list_of_correct_words):
+            msg = f'You have chosen the wrong number of answers!'
+            mb.showerror("Error", msg)
+            return 0
+        for k,j in zip(chosen_words,list_of_correct_words):
+            if k == j:
+                point += 1
+        msg = f'Your score is {point}/{miss_count-1}'
+        mb.showinfo("Info", msg)
+
+
     global click_btn_insert
     # Set parameters for buttons
     click_btn_insert = False
 
     if not click_btn_insert:
-        # main_frame = Frame(height=323, width=147)
-        # main_frame.place(x=800, y=35)
         text_output = Text(height=17, width=68, bg='#bec4da', wrap=WORD, font='Times')
-        text_entry = Text(height=17, width=88, bg='#bec4da', wrap=WORD, font='Times')
+        text_entry = Text(height=17, width=90, bg='#bec4da', wrap=WORD, font='Times')
         text_output.place(y=35, x=240)
         text_entry.place(y=435, x=240)
 
-        right_frame = Canvas(height=323, width=147, bg='#bec4da')
-        right_frame.place(x=800, y=35)
+        right_frame = Canvas(height=326, width=155, bg='#bec4da',relief=FLAT, highlightthickness=0)
+        right_frame.place(x =800,y =35 )   #required method place()
 
-        my_scrollbar = Scrollbar(right_frame, orient=VERTICAL, command=right_frame.yview)
-        right_frame.configure(yscrollcommand=my_scrollbar.set)
-        right_frame.bind('<Configure>', lambda e: right_frame.configure(scrollregion=right_frame.bbox('all')))
-        my_scrollbar.place(x=133, y=1, height=323)
-
-        second_frame = Frame(right_frame, width=100, height=100, bg='#bec4da')
-
-        right_frame.create_window((0, 0), window=second_frame, anchor='nw')
+        words_listbox = Listbox(right_frame, selectmode=MULTIPLE, bg='#bec4da',font='Times',relief=FLAT, highlightthickness=0,height=10)
+        words_listbox.pack(ipadx=1,ipady=63,anchor=CENTER)
+        words_listbox.bind("<<ListboxSelect>>", selected)  #return selected words
 
 
         btn4 = ImageTk.PhotoImage(file="pictures/little_Display.png")
         btn5 = ImageTk.PhotoImage(file="pictures/little_Clear.png")
         btn6 = ImageTk.PhotoImage(file="pictures/little_Close.png")
         btn7 = ImageTk.PhotoImage(file="pictures/little_Display.png")
+
+        check_click_btnInsert = Button(text = 'Check', command=check_text)
+        check_click_btnInsert.place(x=600, y=385)
 
         display_click_btnInsert = Button(text='Display', command=partial(display, False))
         display_click_btnInsert.place(x=250, y=385)
@@ -153,17 +168,9 @@ def destroy_all(*args):
 
 
 def handle_click_btnRandom(event):
-    # try:
-    #     destroy_all(text)
-    # except NameError:
-    #     pass
     def handle_click_on_theme(theme):
         destroy_all(label_theme, canvas_theme, btnNature, btnSocial, btnTechnology)
         handle_click_btnInsert(1, True, (SQL.get_text_by_theme([theme])))
-        # text = Text(height=20, width=88, bg='#bec4da', wrap=WORD)
-        # text.pack(anchor='e', padx=49, pady=10)
-        # text.insert(1.0, )
-        # handle_click_btnInsert(1, text)
 
     canvas_theme = Canvas(background='#d7ebf4', width=150, height=800)
     canvas_theme.place(x=200)
@@ -182,13 +189,11 @@ def handle_click_btnRandom(event):
 
 
 def handle_click_btnHistory(event):  # create a table with date and your previos texts
-    # data
     ls = SQL.return_text_from_history(user_id)
 
     columns = ("text", "date")
 
     tree = ttk.Treeview(columns=columns, show="headings", height=200)
-    # tree.grid(sticky = 'we',column=1,row=1)
     tree.pack(side=RIGHT)
 
     # table's head
@@ -201,9 +206,6 @@ def handle_click_btnHistory(event):  # create a table with date and your previos
     # data
     for text in ls:
         tree.insert("", END, values=text)
-
-
-# def handle_click_btnConfirm(event):
 
 
 def handle_click_btnNewUser():  # может сделать функцию по созданию начальных виджетов? Второй раз вызываем
@@ -236,8 +238,8 @@ def handle_click_btnNewUser():  # может сделать функцию по 
     btnBack.place(y=380, x=440)
 
     btnConfirm = Button(master=top_canvas, text='Confirm', font=('Times,6'), width=10, height=1, command=sql_new_user)
-    str = ''
-    str = entry_name.get()
+    # str = ''
+    # str = entry_name.get()
     btnConfirm.place(y=345, x=450)
 
 
