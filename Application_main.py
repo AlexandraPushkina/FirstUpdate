@@ -39,7 +39,7 @@ if __name__=='__main__':
 
     btnInsert = Button(root, image=btn0, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39')  #create button in object - button
     btnInsert.pack()             #show button
-    btnInsert.bind('<Button-1>',partial(handle_click_btnInsert, False, False)) # Run handle on click
+    btnInsert.bind('<Button-1>', partial(handle_click_btnInsert, False, False)) # Run handle on click
 
     btnRandom = Button(root, image = btn1, highlightthickness=1,bd = 0,activebackground='#151d39', background='#151d39' )
     btnRandom.pack()

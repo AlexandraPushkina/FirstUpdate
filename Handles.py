@@ -10,6 +10,7 @@ import tkinter.messagebox as mb
 import SQL
 from datetime import datetime
 from functools import partial
+import translators as ts # Module for translating (pip install translate-api, pip install translators --upgrade)
 
 click_btn_insert = False
 
@@ -74,6 +75,8 @@ if not click_btn_insert: # If btn Insert not clicked → start function
             text_update = ' '.join(text_list)
             text_output.delete(1.0, END)
             text_output.insert(1.0, final_text)
+            text_translate = ts.translate_text(text, from_language='en', to_language='ru') # Create translate entered text
+            text_output.insert(1.0, text_translate + '\n') # Display translating text
             text_entry.delete("1.0", "end-1c")  # Deletes all entered text when click display
 
         def insert_listbox(*args,miss_count):
