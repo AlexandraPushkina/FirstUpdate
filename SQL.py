@@ -1,6 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 from enum import Enum
+from SQL_password import *
 
 
 # theme = Enum('theme',['Nature','Technology','Social'])
@@ -9,7 +10,7 @@ def get_text_by_theme(theme):  # connection and query for database
     connection = mysql.connector.connect(
         host='localhost',
         user='root',
-        password='Mshrmwllpsnu1',
+        password=MySQL_password,
         database='words'
     )
     cursor = connection.cursor()
@@ -24,7 +25,7 @@ def save_in_history(text, date):
     connection = mysql.connector.connect(
         host='localhost',
         user='root',
-        password='Mshrmwllpsnu1',
+        password=MySQL_password,
         database='words'
     )
     cursor = connection.cursor()
@@ -38,7 +39,7 @@ def return_text_from_history(iduser):
     connection = mysql.connector.connect(
         host='localhost',
         user='root',
-        password='Mshrmwllpsnu1',
+        password=MySQL_password,
         database='words'
     )
     cursor = connection.cursor()
@@ -54,7 +55,7 @@ def return_user_name(user_id):
     connection = mysql.connector.connect(
         host='localhost',
         user='root',
-        password='Mshrmwllpsnu1',
+        password=MySQL_password,
         database='words'
     )
     cursor = connection.cursor()
@@ -66,7 +67,7 @@ def cast_verbs(word):  # return 3 or 4 words
     connection = mysql.connector.connect(
         host='localhost',
         user='root',
-        password='Mshrmwllpsnu1',
+        password=MySQL_password,
         database='words'
     )
     try:
@@ -95,7 +96,7 @@ def register_new_user(name, password):
     connection = mysql.connector.connect(
         host='localhost',
         user='root',
-        password='Mshrmwllpsnu1',
+        password=MySQL_password,
         database='words'
     )
     query = 'INSERT INTO words.users (user_name, user_password) VALUES ((%s),(%s))'
@@ -109,7 +110,7 @@ def confirm_user(name, password):
     connection = mysql.connector.connect(
         host='localhost',
         user='root',
-        password='Mshrmwllpsnu1',
+        password=MySQL_password,
         database='words'
     )
     cursor = connection.cursor()
