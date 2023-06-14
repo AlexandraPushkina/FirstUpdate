@@ -90,7 +90,7 @@ def handle_click_btnInsert(event, from_random, random_text):  # Create function 
 
     def save_in_history():  # doesn't work now
         try:
-            SQL.save_in_history(text_update, datetime.now())
+            SQL.save_in_history(text_update, datetime.now(),*user_id)
             msg = 'The text is saved'
             mb.showinfo("Saving", msg)
         except NameError:  # if user didn't display a text - show a message

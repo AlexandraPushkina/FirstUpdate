@@ -16,7 +16,7 @@ def get_text_by_theme(theme):  # connection and query for database
     return text
 
 
-def save_in_history(text, date):
+def save_in_history(text, date,id_user):
     connection = mysql.connector.connect(
         host='localhost',
         user='root',
@@ -24,8 +24,9 @@ def save_in_history(text, date):
         database='words'
     )
     cursor = connection.cursor()
-    query = 'INSERT INTO words.history(history_text,date) VALUES ((%s),(%s))'
-    cursor.execute(query, (text, date))
+    query = 'INSERT INTO words.history(history_text,date,iduser) VALUES ((%s),(%s),(%s))'
+    print(text, date, id_user)
+    cursor.execute(query, (text, date,id_user))
     connection.commit()
     connection.close()
 
@@ -118,3 +119,4 @@ def confirm_user(name, password):
     else:
         connection.close()
         return result[0]    #return id_user which linked with history
+
