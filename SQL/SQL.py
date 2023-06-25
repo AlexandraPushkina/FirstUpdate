@@ -1,5 +1,5 @@
 import mysql.connector
-from SQL_password import MySQL_password
+from SQL.SQL_password import MySQL_password
 
 def get_text_by_theme(theme):  # connection and query for database
     connection = mysql.connector.connect(
