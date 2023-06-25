@@ -6,7 +6,7 @@ from functools import partial
 import random
 import re
 import tkinter.messagebox as mb
-import SQL
+from SQL import SQL
 import translators as ts  # Module for translating (pip install translate-api, pip install translators --upgrade)
 
 
@@ -56,14 +56,14 @@ def handle_click_btnInsert(event, from_random, random_text):  # Create function 
                                    re.findall(r'\w+', SQL.cast_verbs(text_update_for_searching[i]))[1],
                                    re.findall(r'\w+', SQL.cast_verbs(text_update_for_searching[i]))[2],
                                    miss_count=miss_count)
-                final_text_in_list[i] = '(...,...,...)'  # replace in text
+                final_text_in_list[i] = '(...)'  # replace in text
                 miss_count += 1  # how many missing words
 
         final_text = ''
         for el in final_text_in_list:  # making a text in normal str-format
             final_text += el + ' '
 
-        text_update = ' '.join(text_list)
+        text_update = ''.join(text_list)
         text_output.delete(1.0, END)
         text_entry.delete("1.0", "end-1c")  # Deletes all entered text when click display
         text_output.insert(1.0, final_text)
@@ -297,7 +297,7 @@ def handle_main_window(event):
     name_label.place(y=265, x=370)
     password_label.place(y=296, x=340)
 
-    with open('home.txt', 'r') as file:
+    with open('text/home.txt', 'r') as file:
         home_text = file.read()  # Open and read file home.txt
         home_label = Label(top_canvas, text=home_text, anchor='n', bg='#31343f', font=('Times', 15, 'bold'),
                            fg='#bec4da')

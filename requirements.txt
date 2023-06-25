@@ -1,0 +1,5 @@
+mysql==0.0.3
+mysql-connector-python==8.0.33
+Pillow==9.5.0
+translate-api==4.9.5
+translators==5.7.6

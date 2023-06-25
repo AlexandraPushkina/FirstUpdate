@@ -1,5 +1,6 @@
 # created by virtualenv automatically
-__pycache__
+.__pycache__
 Lib
 .idea/
 SQL_password.py
+venv
